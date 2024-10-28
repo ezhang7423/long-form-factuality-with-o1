@@ -34,7 +34,7 @@ prompt_postamble = """\
 Provide as many specific details and examples as possible (such as names of \
 people, numbers, events, locations, dates, times, etc.)
 """
-openai_api_key = ''
+openai_api_key = os.getenv('OPENAI_API_KEY')
 anthropic_api_key = ''
 serper_api_key = ''
 random_seed = 1
@@ -44,6 +44,8 @@ model_options = {
     'gpt_4_32k': 'OPENAI:gpt-4-32k-0613',
     'gpt_35_turbo': 'OPENAI:gpt-3.5-turbo-0125',
     'gpt_35_turbo_16k': 'OPENAI:gpt-3.5-turbo-16k-0613',
+    'o1_mini': 'OPENAI:o1-mini-2024-09-12',
+    'o1_preview': 'OPENAI:o1-preview-2024-09-12',
     'claude_3_opus': 'ANTHROPIC:claude-3-opus-20240229',
     'claude_3_sonnet': 'ANTHROPIC:claude-3-sonnet-20240229',
     'claude_3_haiku': 'ANTHROPIC:claude-3-haiku-20240307',
@@ -53,6 +55,8 @@ model_options = {
 }
 model_string = {
     'gpt_4_turbo': 'gpt4turbo',
+    'o1_mini': 'o1mini',
+    'o1_preview': 'o1preview',
     'gpt_4': 'gpt4',
     'gpt_4_32k': 'gpt432k',
     'gpt_35_turbo': 'gpt35turbo',

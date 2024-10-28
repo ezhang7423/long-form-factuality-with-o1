@@ -50,10 +50,11 @@ class Usage(pg.Object):
   completion_tokens: int
 
 
-class LMSamplingResult(lf.LMSamplingResult):
-  """LMSamplingResult with usage information."""
+LMSamplingResult = lf.LMSamplingResult
+# class LMSamplingResult(lf.LMSamplingResult):
+#   """LMSamplingResult with usage information."""
 
-  usage: Usage | None = None
+#   usage: Usage | None = None
 
 
 @lf.use_init_args(['model'])
@@ -102,8 +103,7 @@ class AnthropicModel(lf.LanguageModel):
         max_tokens=options.max_tokens,
         stream=False,
         model=self.model,
-    )
-
+    )    
     if options.top_p is not None:
       args['top_p'] = options.top_p
     if options.top_k is not None:
@@ -183,6 +183,8 @@ class Model:
       self, model_name: str, temperature: float, max_tokens: int
   ) -> lf.LanguageModel:
     """Loads a language model from string representation."""
+    if 'o1' in model_name:      
+      max_tokens = None
     sampling = lf.LMSamplingOptions(
         temperature=temperature, max_tokens=max_tokens
     )
@@ -231,6 +233,8 @@ class Model:
     gen_max_tokens = max_tokens or self.max_tokens
     response, num_attempts = '', 0
 
+    if 'o1' in self.model_name:
+      gen_max_tokens = None
     with modeling_utils.get_lf_context(gen_temp, gen_max_tokens):
       while not response and num_attempts < max_attempts:
         with futures.ThreadPoolExecutor() as executor:
